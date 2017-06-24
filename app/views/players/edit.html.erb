@@ -1,0 +1,100 @@
+    <% if @player.errors.any? %>
+      <div class="ui negative message">
+      <i class="close icon"></i>
+        <% @player.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+        <% end %>
+      </div>
+    <% end %>
+    
+<%= form_for(@player, html: {class: 'ui form'}) do |f| %>
+<div class="ui raised segment">
+    
+    <div class="field">
+      <label>名前</label>
+      <%= f.text_field :name, class: "" %>
+    </div>
+    
+    
+    <div class="field">
+      <label>ふりがな</label>
+      <%= f.text_field :phonetic, class: "" %>
+    </div>
+    
+    <div class="field">
+      <label>画像</label>
+      <%= f.text_field :image, class: "" %>
+    </div>
+    
+    <div class="field">
+      <label>国</label>
+      <%= f.text_field :country, class: "" %>
+    </div>
+    
+    <div class="field">
+      <label>出身</label>
+      <%= f.text_field :graduate, class: "" %>
+    </div>
+    
+    
+    <div class="field">
+      <label>出身</label>
+      <%= f.text_field :birth, class: "" %>
+    </div>
+    
+    
+    <div class="field">
+      <label>身長</label>
+      <%= f.text_field :height, class: "" %>
+    </div>
+    
+    
+    <div class="field">
+      <label>体重</label>
+      <%= f.text_field :weight, class: "" %>
+    </div>
+    
+    
+    <div class="field">
+      <label>投打</label>
+      <%= f.text_field :style, class: "" %>
+    </div>
+    
+    
+    <div class="field">
+      <label>ポジション</label>
+      <%= f.text_field :position, class: "" %>
+    </div>
+    
+    
+    <div class="field">
+      <label>ドラフト</label>
+      <%= f.text_field :draft, class: "" %>
+    </div>
+    
+    
+    <div class="field">
+      <label>年棒</label>
+      <%= f.text_field :bar, class: "" %>
+    </div>
+    
+    
+    <div class="field">
+      <label>経歴</label>
+      <%= f.text_field :career, class: "" %>
+    </div>
+  
+  
+
+
+    
+    <div class="field">
+      <label>球団</label>
+      <%= f.text_field :team, class: "" %>
+    </div>
+    
+  <div class="actions">
+    <%= f.submit "登録", class: 'ui button'%>
+  </div>
+</div>
+<% end %>

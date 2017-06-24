@@ -27,6 +27,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'bcrypt', '~> 3.1.7'
 gem 'unicorn'
 gem 'mysql2'
+gem 'semantic-ui-sass', git: 'https://github.com/doabit/semantic-ui-sass.git'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
