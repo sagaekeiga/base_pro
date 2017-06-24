@@ -19,17 +19,19 @@ ActiveRecord::Schema.define(version: 20170624104833) do
     t.text     "country"
     t.text     "graduate"
     t.text     "birth"
-    t.text     "height"
-    t.text     "weight"
+    t.text     "physical"
+    t.text     "first"
     t.text     "style"
     t.text     "position"
     t.text     "draft"
     t.text     "bar"
-    t.text     "career"
+    t.text     "career_over"
+    t.text     "career_detail"
     t.text     "phonetic"
     t.text     "team"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text     "wiki"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
 end

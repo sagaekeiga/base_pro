@@ -8,13 +8,14 @@
     <th>国</th>
     <th>出身</th>
     <th>誕生日</th>
-    <th>身長</th>
-    <th>体重</th>
+    <th>フィジカル</th>
+    <th>初出場</th>
     <th>投打</th>
     <th>ポジション</th>
     <th>ドラフト</th>
     <th>年棒</th>
-    <th>経歴</th>
+    <th>経歴概要</th>
+    <th>経歴詳細</th>
     <th>球団</th>
     <th>管理</th>
     </tr>
@@ -25,17 +26,18 @@
          <td ><%= player.id %></td>
          <td><%= link_to"#{player.name}", player, { :target => "_blank"}  %></td>
          <td ><%= player.phonetic %></td>
-         <td ><%= player.image %></td>
+         <td ><%= image_tag(player.image, :size => '50x50') if !player.image.nil? %></td>
          <td ><%= player.country %></td>
          <td ><%= player.graduate %></td>
          <td ><%= player.birth %></td>
-         <td ><%= player.height %></td>
-         <td ><%= player.weight %></td>
+         <td ><%= player.physical %></td>
+         <td ><%= player.first %></td>
          <td ><%= player.style %></td>
          <td ><%= player.position %></td>
          <td ><%= player.draft %></td>
          <td ><%= player.bar %></td>
-         <td ><%= player.career %></td>
+         <td ><%= player.career_over %></td>
+         <td ><%= player.career_detail.truncate(20) if !player.career_detail.nil? %></td>
          <td ><%= player.team %></td>
          <td>
           <%= link_to "編集", edit_player_path(player.id), { :class => "ui olive button" } %>

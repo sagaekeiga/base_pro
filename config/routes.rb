@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
   
   root 'players#index'
-  resources :players
+  get 'players/players_meikan'
+  get 'players/players_wiki1'
+  get 'players/players_wiki2'
+  get 'players/players_wiki3'
 
+  resources :players
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
