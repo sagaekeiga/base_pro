@@ -63,10 +63,10 @@ class PlayersController < ApplicationController
     
                           doc = Nokogiri::HTML(open("#{url}"))
                           
-                          doc.css('td.rgshdphoto > img').each do |anchor|
-                            p "画像URL"
-                            p @player[:image] = anchor[:src]
-                          end
+                          # doc.css('td.rgshdphoto > img').each do |anchor|
+                          #   p "画像URL"
+                          #   p @player[:image] = anchor[:src]
+                          # end
                           
                           doc.css('td.registerDetail').first(1).each do |phonetic|
                             p "ふりがな"
