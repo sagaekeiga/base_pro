@@ -6,6 +6,17 @@ Rails.application.routes.draw do
   get 'players/players_wiki2'
   get 'players/players_wiki3'
 
+
+
+
+  namespace :api, { format: 'json' } do
+    namespace :v1, { format: 'json' } do 
+      post 'players/search'
+      post 'players/detail'
+      resources :players
+    end
+  end
+  
   resources :players
   
   # The priority is based upon order of creation: first created -> highest priority.
