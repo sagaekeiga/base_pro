@@ -21,5 +21,12 @@ test:
   database: db/test.sqlite3
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  adapter: mysql2
+  database: base_pro
+  username: base_pro
+  password: s19930528
+  host: localhost
+  charset: utf8mb4
+  collation: utf8mb4_bin
+  encoding: utf8mb4
+  socket: /var/lib/mysql/mysql.sock
