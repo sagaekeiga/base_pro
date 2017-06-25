@@ -52,14 +52,12 @@ class PlayersController < ApplicationController
           doc = Nokogiri::HTML(open("http://npb.jp/bis/teams/rst_#{team_url}.html"))
             doc.css(" td.rosterRegister").each do |doc|
                 doc.css('a').each do |anchor|
-                      begin
+                      # begin
                         @player = Player.new
                         p "名前"
                         p @player[:name] = anchor.inner_text #名前
                         p @player[:wiki] = anchor.inner_text.gsub("　", "")
-                        p "画像"
-                        p url = "http://npb.jp" + anchor[:href] #URL先
-    
+
     
                           doc = Nokogiri::HTML(open("#{url}"))
                           
@@ -96,9 +94,9 @@ class PlayersController < ApplicationController
     
                           @player.save!
                         
-                      rescue => e
-                        puts "エラー"
-                      end
+                      # rescue => e
+                      #   puts "エラー"
+                      # end
                 end
             end
          end
@@ -126,8 +124,13 @@ class PlayersController < ApplicationController
                           p url = "https://ja.wikipedia.org" + anchor[:href]
                           
                           doc = Nokogiri::HTML(open(url))
-                          
-                          doc.css('td').first(10).each_with_index do |doc, i|
+
+                          # doc.css('td > a > img').each do |img|
+                          #     p "画像"
+                          #     p @player[:image] = "https:" + img[:src]
+                          # end
+                       
+                       doc.css('td').first(10).each_with_index do |doc, i|
                             
                               if doc.inner_text.include?("日本") == true ||  doc.inner_text.include?("アメリカ") == true ||  doc.inner_text.include?("ブラジル") == true ||  doc.inner_text.include?("ドミニカ") == true ||  doc.inner_text.include?("オーストラリア") == true || doc.inner_text.include?("台湾") == true || doc.inner_text.include?("カナダ") == true || doc.inner_text.include?("メキシコ") == true || doc.inner_text.include?("ベネズエラ") == true|| doc.inner_text.include?("キューバ") == true
                                   p "国籍"
