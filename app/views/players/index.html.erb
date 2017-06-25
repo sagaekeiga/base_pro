@@ -1,14 +1,54 @@
-<div class="ui grid container">
-  <div class="four wide column"><%= link_to "新規登録", new_player_path %></div>
-  <div class="four wide column"></div>
-  <div class="four wide column"></div>
-  <div class="four wide column"></div>
-  <div class="four wide column"></div>
-  <div class="four wide column"></div>
-  <div class="four wide column"></div>
-  <div class="four wide column"></div>
-</div>
+
+
 <div class="ui grid">
-      <%= render 'players/index' %>
+<table class="ui celled table">
+  <thead>
+    <tr>
+    <th>選手合計</th>
+    <th>選手合計(未)</th>
+    <th>広島合計(未)</th>
+    <th>オリックス(未)</th>
+    <th>巨人(未)</th>
+    <th>ソフトバンク(未)</th>
+    <th>ロッテ(未)</th>
+    <th>ヤクルト(未)</th>
+    <th>中日(未)</th>
+    <th>楽天(未)</th>
+    <th>西武(未)</th>
+    <th>横浜(未)</th>
+    <th>日本ハム(未)</th>
+    <th>阪神(未)</th>
+    </tr>
+ </thead>
+  <tbody>
+        <tr>
+         <td><%= @players.count %></td>
+         <td><%= team_shortage("広島東洋カープ").count + team_shortage("オリックス・バファローズ").count
+         + team_shortage("読売ジャイアンツ").count + team_shortage("福岡ソフトバンクホークス").count + 
+         team_shortage("千葉ロッテマリーンズ").count + team_shortage("東京ヤクルトスワローズ").count + 
+         team_shortage("中日ドラゴンズ").count + team_shortage("東北楽天ゴールデンイーグルス").count + 
+         team_shortage("埼玉西武ライオンズ").count + team_shortage("横浜DeNAベイスターズ").count + 
+         team_shortage("北海道日本ハムファイターズ").count + team_shortage("阪神タイガース").count %></td>
+         
+         <td><%= team_num("広島東洋カープ").count.to_s + "(" + team_shortage("広島東洋カープ").count.to_s + ")" %></td>
+         <td ><%= team_num("オリックス・バファローズ").count.to_s + "(" + team_shortage("オリックス・バファローズ").count.to_s + ")" %></td>
+         <td ><%= team_num("読売ジャイアンツ").count.to_s + "(" + team_shortage("読売ジャイアンツ").count.to_s + ")" %></td>
+         <td ><%= team_num("福岡ソフトバンクホークス").count.to_s + "(" + team_shortage("福岡ソフトバンクホークス").count.to_s + ")" %></td>
+         <td ><%= team_num("千葉ロッテマリーンズ").count.to_s + "(" + team_shortage("千葉ロッテマリーンズ").count.to_s + ")" %></td>
+         <td ><%= team_num("東京ヤクルトスワローズ").count.to_s + "(" + team_shortage("東京ヤクルトスワローズ").count.to_s + ")" %></td>
+         <td ><%= team_num("中日ドラゴンズ").count.to_s + "(" + team_shortage("中日ドラゴンズ").count.to_s + ")" %></td>
+         <td ><%= team_num("東北楽天ゴールデンイーグルス").count.to_s + "(" + team_shortage("東北楽天ゴールデンイーグルス").count.to_s + ")" %></td>
+         <td ><%= team_num("埼玉西武ライオンズ").count.to_s + "(" + team_shortage("埼玉西武ライオンズ").count.to_s + ")" %></td>
+         <td ><%= team_num("横浜DeNAベイスターズ").count.to_s + "(" + team_shortage("横浜DeNAベイスターズ").count.to_s + ")" %></td>
+         <td ><%= team_num("北海道日本ハムファイターズ").count.to_s + "(" + team_shortage("北海道日本ハムファイターズ").count.to_s + ")" %></td>
+         <td ><%= team_num("阪神タイガース").count.to_s + "(" + team_shortage("阪神タイガース").count.to_s + ")" %></td>
+        </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="ui grid">
+      <%= render 'players/index', players: @players if @results.nil? %>
+      <%= render 'players/index', players: @results if !@results.nil? %>
   </div>
 </div>

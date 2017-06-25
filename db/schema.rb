@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 20170624104833) do
     t.text     "graduate"
     t.text     "birth"
     t.text     "physical"
-    t.text     "first"
     t.text     "style"
     t.text     "position"
     t.text     "draft"

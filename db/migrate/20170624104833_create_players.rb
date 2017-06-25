@@ -7,7 +7,6 @@ class CreatePlayers < ActiveRecord::Migration
       t.text :graduate
       t.text :birth
       t.text :physical
-      t.text :first
       t.text :style
       t.text :position
       t.text :draft

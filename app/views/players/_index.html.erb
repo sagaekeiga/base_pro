@@ -3,13 +3,13 @@
     <tr>
     <th>ID</th>
     <th>名前</th>
+    <th>ウィキ</th>
     <th>ふりがな</th>
     <th>画像</th>
     <th>国</th>
     <th>出身</th>
     <th>誕生日</th>
     <th>フィジカル</th>
-    <th>初出場</th>
     <th>投打</th>
     <th>ポジション</th>
     <th>ドラフト</th>
@@ -21,17 +21,17 @@
     </tr>
  </thead>
   <tbody>
-    <% @players.each do |player| %>
+    <% players.each do |player| %>
         <tr>
          <td ><%= player.id %></td>
          <td><%= link_to"#{player.name}", player, { :target => "_blank"}  %></td>
+         <td ><%= player.wiki %></td>
          <td ><%= player.phonetic %></td>
          <td ><%= image_tag(player.image, :size => '50x50') if !player.image.nil? %></td>
          <td ><%= player.country %></td>
          <td ><%= player.graduate %></td>
          <td ><%= player.birth %></td>
          <td ><%= player.physical %></td>
-         <td ><%= player.first %></td>
          <td ><%= player.style %></td>
          <td ><%= player.position %></td>
          <td ><%= player.draft %></td>

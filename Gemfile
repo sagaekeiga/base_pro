@@ -29,6 +29,7 @@ gem 'unicorn'
 gem 'mysql2'
 gem 'semantic-ui-sass', git: 'https://github.com/doabit/semantic-ui-sass.git'
 gem "nokogiri"
+gem "ransack"
 
 # Use Unicorn as the app server
 # gem 'unicorn'

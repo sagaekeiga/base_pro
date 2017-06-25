@@ -6,6 +6,8 @@ class PlayersController < ApplicationController
 
     def index
       @players = Player.all
+      @q        = Player.search(params[:q])
+      @results = @q.result(distinct: true)
     end
     
     def new
@@ -68,7 +70,7 @@ class PlayersController < ApplicationController
                           
                           doc.css('td.registerDetail').first(1).each do |phonetic|
                             p "ふりがな"
-                            p @player[:phonetic] = phonetic.inner_text
+                            p @player[:phonetic] = phonetic.inner_text.gsub("　", "").gsub(" ", "").gsub(/（[a-zA-Z]++）/, "")
                           end
                           
                           doc.css('td.registerDetail').first(3).each do |career_over|
@@ -115,7 +117,10 @@ class PlayersController < ApplicationController
                         p "名前"
                         p @player = Player.find_by(wiki: anchor.inner_text)
 
-
+                        if @player.nil?
+                          p @player = Player.find_by(phonetic: anchor.inner_text)
+                        end
+                        
                         if !@player.nil?
                           p "URL"
                           p url = "https://ja.wikipedia.org" + anchor[:href]
@@ -123,20 +128,43 @@ class PlayersController < ApplicationController
                           doc = Nokogiri::HTML(open(url))
                           
                           doc.css('td').first(10).each_with_index do |doc, i|
-                              p "国籍"
-                              p @player[:country] = doc.inner_text.lstrip if i == 1
+                            
+                              if doc.inner_text.include?("日本") == true ||  doc.inner_text.include?("アメリカ") == true ||  doc.inner_text.include?("ブラジル") == true ||  doc.inner_text.include?("ドミニカ") == true ||  doc.inner_text.include?("オーストラリア") == true || doc.inner_text.include?("台湾") == true || doc.inner_text.include?("カナダ") == true || doc.inner_text.include?("メキシコ") == true || doc.inner_text.include?("ベネズエラ") == true|| doc.inner_text.include?("キューバ") == true
+                                  p "国籍"
+                                  p @player[:country] = doc.inner_text.lstrip.gsub(/\[\d+\]/, "") if doc.inner_text.length <= 10
+                              end
+                              
+                              
+                              if doc.inner_text.include?("県") == true || 
+                              doc.inner_text.include?("都") == true || doc.inner_text.include?("府") == true || doc.inner_text.include?("道") == true || doc.inner_text.include?("州") == true
                               p "出身"
-                              p @player[:graduate] = doc.inner_text if i == 2
-                              p "誕生日"
-                              p @player[:birth] = doc.inner_text.gsub(/\(.+?\)/, "").lstrip if i == 3
-                              p "フィジカル"
-                              p @player[:physical] = doc.inner_text if i == 4
-                              p "投打"
-                              p @player[:style] = doc.inner_text if i == 5
-                              p "初出場"
-                              p @player[:first] = doc.inner_text if i == 8
-                              p "年棒"
-                              p @player[:bar] = doc.inner_text.gsub(/\[\d+\]/, "") if i == 9
+                              p @player[:graduate] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
+                              
+                              if doc.inner_text.include?("歳") == true
+                                  p "誕生日"
+                                  p @player[:birth] = doc.inner_text.gsub(/\(.+?\)/, "").lstrip.gsub(/\[\d+\]/, "")
+                              end
+                              
+                              if doc.inner_text.include?("cm") == true && doc.inner_text.include?("kg") == true
+                                  p "フィジカル"
+                                  p @player[:physical] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
+
+                              if doc.inner_text.include?("ドラフト") == true
+                                  p "ドラフト"
+                                  p @player[:draft] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
+                              
+                              if doc.inner_text.include?("投") == true && doc.inner_text.include?("打") == true
+                                  p "投打"
+                                  p @player[:style] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
+                              
+                              if doc.inner_text.include?("万") == true || doc.inner_text.include?("億") == true || doc.inner_text.include?("兆") == true || doc.inner_text.include?("$") == true || doc.inner_text.include?("000") == true
+                                  p "年棒"
+                                  p @player[:bar] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
                           end
            
                           doc.css('#mw-content-text > div').each do |doc|
@@ -150,6 +178,7 @@ class PlayersController < ApplicationController
                               @remove_episode = doc.inner_text.slice(@start_doc..@end_doc).gsub(/\[\d+\]/, "")
                               # 経歴詳細
                               @player[:career_detail] = @remove_episode.gsub(/\[編集\]/, "")
+                              @player[:career_detail] = @player[:career_detail].gsub(/編集\]/, "")
                           end
                           @player.save!
                         end
@@ -174,6 +203,10 @@ class PlayersController < ApplicationController
                       begin
                         p "名前"
                         p @player = Player.find_by(wiki: anchor.inner_text)
+
+                        if @player.nil?
+                          p @player = Player.find_by(phonetic: anchor.inner_text)
+                        end
                         
                         if !@player.nil?
                           p "URL"
@@ -182,20 +215,43 @@ class PlayersController < ApplicationController
                           doc = Nokogiri::HTML(open(url))
                           
                           doc.css('td').first(10).each_with_index do |doc, i|
-                              p "国籍"
-                              p @player[:country] = doc.inner_text.lstrip if i == 1
+                            
+                              if doc.inner_text.include?("日本") == true ||  doc.inner_text.include?("アメリカ") == true ||  doc.inner_text.include?("ブラジル") == true ||  doc.inner_text.include?("ドミニカ") == true ||  doc.inner_text.include?("オーストラリア") == true || doc.inner_text.include?("台湾") == true || doc.inner_text.include?("カナダ") == true || doc.inner_text.include?("メキシコ") == true || doc.inner_text.include?("ベネズエラ") == true|| doc.inner_text.include?("キューバ") == true
+                                  p "国籍"
+                                  p @player[:country] = doc.inner_text.lstrip.gsub(/\[\d+\]/, "") if doc.inner_text.length <= 10
+                              end
+                              
+                              
+                              if doc.inner_text.include?("県") == true || 
+                              doc.inner_text.include?("都") == true || doc.inner_text.include?("府") == true || doc.inner_text.include?("道") == true || doc.inner_text.include?("州") == true
                               p "出身"
-                              p @player[:graduate] = doc.inner_text if i == 2
-                              p "誕生日"
-                              p @player[:birth] = doc.inner_text.gsub(/\(.+?\)/, "").lstrip if i == 3
-                              p "フィジカル"
-                              p @player[:physical] = doc.inner_text if i == 4
-                              p "投打"
-                              p @player[:style] = doc.inner_text if i == 5
-                              p "初出場"
-                              p @player[:first] = doc.inner_text if i == 8
-                              p "年棒"
-                              p @player[:bar] = doc.inner_text.gsub(/\[\d+\]/, "") if i == 9
+                              p @player[:graduate] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
+                              
+                              if doc.inner_text.include?("歳") == true
+                                  p "誕生日"
+                                  p @player[:birth] = doc.inner_text.gsub(/\(.+?\)/, "").lstrip.gsub(/\[\d+\]/, "")
+                              end
+                              
+                              if doc.inner_text.include?("cm") == true && doc.inner_text.include?("kg") == true
+                                  p "フィジカル"
+                                  p @player[:physical] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
+
+                              if doc.inner_text.include?("ドラフト") == true
+                                  p "ドラフト"
+                                  p @player[:draft] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
+                              
+                              if doc.inner_text.include?("投") == true && doc.inner_text.include?("打") == true
+                                  p "投打"
+                                  p @player[:style] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
+                              
+                              if doc.inner_text.include?("万") == true || doc.inner_text.include?("億") == true || doc.inner_text.include?("兆") == true || doc.inner_text.include?("$") == true || doc.inner_text.include?("000") == true
+                                  p "年棒"
+                                  p @player[:bar] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
                           end
            
                           doc.css('#mw-content-text > div').each do |doc|
@@ -209,6 +265,7 @@ class PlayersController < ApplicationController
                               @remove_episode = doc.inner_text.slice(@start_doc..@end_doc).gsub(/\[\d+\]/, "")
                               # 経歴詳細
                               @player[:career_detail] = @remove_episode.gsub(/\[編集\]/, "")
+                              @player[:career_detail] = @player[:career_detail].gsub(/編集\]/, "")
                           end
                           @player.save!
                         end
@@ -233,6 +290,10 @@ class PlayersController < ApplicationController
                       begin
                         p "名前"
                         p @player = Player.find_by(wiki: anchor.inner_text)
+
+                        if @player.nil?
+                          p @player = Player.find_by(phonetic: anchor.inner_text)
+                        end
                         
                         if !@player.nil?
                           p "URL"
@@ -241,20 +302,43 @@ class PlayersController < ApplicationController
                           doc = Nokogiri::HTML(open(url))
                           
                           doc.css('td').first(10).each_with_index do |doc, i|
-                              p "国籍"
-                              p @player[:country] = doc.inner_text.lstrip if i == 1
+                            
+                              if doc.inner_text.include?("日本") == true ||  doc.inner_text.include?("アメリカ") == true ||  doc.inner_text.include?("ブラジル") == true ||  doc.inner_text.include?("ドミニカ") == true ||  doc.inner_text.include?("オーストラリア") == true || doc.inner_text.include?("台湾") == true || doc.inner_text.include?("カナダ") == true || doc.inner_text.include?("メキシコ") == true || doc.inner_text.include?("ベネズエラ") == true|| doc.inner_text.include?("キューバ") == true
+                                  p "国籍"
+                                  p @player[:country] = doc.inner_text.lstrip.gsub(/\[\d+\]/, "") if doc.inner_text.length <= 10
+                              end
+                              
+                              
+                              if doc.inner_text.include?("県") == true || 
+                              doc.inner_text.include?("都") == true || doc.inner_text.include?("府") == true || doc.inner_text.include?("道") == true || doc.inner_text.include?("州") == true
                               p "出身"
-                              p @player[:graduate] = doc.inner_text if i == 2
-                              p "誕生日"
-                              p @player[:birth] = doc.inner_text.gsub(/\(.+?\)/, "").lstrip if i == 3
-                              p "フィジカル"
-                              p @player[:physical] = doc.inner_text if i == 4
-                              p "投打"
-                              p @player[:style] = doc.inner_text if i == 5
-                              p "初出場"
-                              p @player[:first] = doc.inner_text if i == 8
-                              p "年棒"
-                              p @player[:bar] = doc.inner_text.gsub(/\[\d+\]/, "") if i == 9
+                              p @player[:graduate] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
+                              
+                              if doc.inner_text.include?("歳") == true
+                                  p "誕生日"
+                                  p @player[:birth] = doc.inner_text.gsub(/\(.+?\)/, "").lstrip.gsub(/\[\d+\]/, "")
+                              end
+                              
+                              if doc.inner_text.include?("cm") == true && doc.inner_text.include?("kg") == true
+                                  p "フィジカル"
+                                  p @player[:physical] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
+
+                              if doc.inner_text.include?("ドラフト") == true
+                                  p "ドラフト"
+                                  p @player[:draft] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
+                              
+                              if doc.inner_text.include?("投") == true && doc.inner_text.include?("打") == true
+                                  p "投打"
+                                  p @player[:style] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
+                              
+                              if doc.inner_text.include?("万") == true || doc.inner_text.include?("億") == true || doc.inner_text.include?("兆") == true || doc.inner_text.include?("$") == true || doc.inner_text.include?("000") == true
+                                  p "年棒"
+                                  p @player[:bar] = doc.inner_text.gsub(/\[\d+\]/, "")
+                              end
                           end
            
                           doc.css('#mw-content-text > div').each do |doc|
@@ -268,6 +352,7 @@ class PlayersController < ApplicationController
                               @remove_episode = doc.inner_text.slice(@start_doc..@end_doc).gsub(/\[\d+\]/, "")
                               # 経歴詳細
                               @player[:career_detail] = @remove_episode.gsub(/\[編集\]/, "")
+                              @player[:career_detail] = @player[:career_detail].gsub(/編集\]/, "")
                           end
                           @player.save!
                         end

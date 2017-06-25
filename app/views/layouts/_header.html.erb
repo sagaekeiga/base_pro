@@ -1,0 +1,24 @@
+<div class="ui segment">
+  <h3 class="ui right aligned header">
+    <%= link_to "新規登録", new_player_path %>
+  </h3>
+  <h3 class="ui center aligned header">
+      <div class="ui action input">
+        <%= search_form_for @q do |f| %>
+        
+          <%= f.search_field :name_cont, :placeholder => "名前" %>
+          <%= f.search_field :country_cont, :placeholder => "国籍" %>
+          <%= f.search_field :graduate_cont, :placeholder => "出身" %>
+          <%= f.search_field :draft_cont, :placeholder => "ドラフト" %><br/>
+          <%= f.search_field :bar_cont, :placeholder => "年棒" %>
+          <%= f.search_field :career_over_cont, :placeholder => "経歴概要" %>
+          <%= f.search_field :career_detail_cont, :placeholder => "経歴詳細" %>
+          <%= f.search_field :phonetic_cont, :placeholder => "ふりがな" %>
+          <%= f.search_field :team_cont, :placeholder => "球団" %>
+
+          <%# 検索ボタン %>
+          <%= f.submit :class => "ui button"%>
+        <% end %>
+      </div>
+  </h3>
+</div>
