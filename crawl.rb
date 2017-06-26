@@ -20,7 +20,7 @@ require 'open-uri'
                 p url = "https://ja.wikipedia.org" + anchor[:href]
                 
                 doc = Nokogiri::HTML(open(url))
-                doc.css('td > a > img').each do |img|
+                doc.css('td > a > img').first(1).each do |img|
                     p "画像"
                     p "https:" + img[:src]
                 end

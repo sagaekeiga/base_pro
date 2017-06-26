@@ -57,7 +57,9 @@ class PlayersController < ApplicationController
                         p "名前"
                         p @player[:name] = anchor.inner_text #名前
                         p @player[:wiki] = anchor.inner_text.gsub("　", "")
-
+                        p "画像"
+                        p url = "http://npb.jp" + anchor[:href] #URL先
+    
     
                           doc = Nokogiri::HTML(open("#{url}"))
                           
@@ -125,10 +127,10 @@ class PlayersController < ApplicationController
                           
                           doc = Nokogiri::HTML(open(url))
 
-                          # doc.css('td > a > img').each do |img|
-                          #     p "画像"
-                          #     p @player[:image] = "https:" + img[:src]
-                          # end
+                          doc.css('td > a > img').first(1).each do |img|
+                              p "画像"
+                              p @player[:image] = "https:" + img[:src]
+                          end
                        
                        doc.css('td').first(10).each_with_index do |doc, i|
                             
@@ -216,6 +218,12 @@ class PlayersController < ApplicationController
                           p url = "https://ja.wikipedia.org" + anchor[:href]
                           
                           doc = Nokogiri::HTML(open(url))
+
+                          doc.css('td > a > img').first(1).each do |img|
+                              p "画像"
+                              p @player[:image] = "https:" + img[:src]
+                          end
+                          
                           
                           doc.css('td').first(10).each_with_index do |doc, i|
                             
@@ -303,6 +311,12 @@ class PlayersController < ApplicationController
                           p url = "https://ja.wikipedia.org" + anchor[:href]
                           
                           doc = Nokogiri::HTML(open(url))
+                          
+                        
+                          doc.css('td > a > img').first(1).each do |img|
+                              p "画像"
+                              p @player[:image] = "https:" + img[:src]
+                          end
                           
                           doc.css('td').first(10).each_with_index do |doc, i|
                             
